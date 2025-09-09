@@ -1,32 +1,11 @@
 import { useMenu } from "@/menu";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
 
 export default function MenuDrawer() {
 	const menu = useMenu();
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        menu.closeMenu();
-      }
-    }
-
-    if (menu.isOpen) {
-      document.addEventListener("click", handleClickOutside);
-      document.addEventListener("mousedown", handleClickOutside);
-
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [menu.isOpen, menu.closeMenu, menu]);
 
 	return (
 		<motion.div
-			ref={menuRef}
 			initial={{ x: "-100%" }}
 			animate={{ x: 0 }}
 			exit={{ x: "-100%" }}
