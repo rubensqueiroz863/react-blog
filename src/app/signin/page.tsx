@@ -21,7 +21,7 @@ export default function SignInPage() {
               alt="Logo do Google"
               width={128}
               height={128}
-              className="w-5 h-5"
+              className="w-5 h-5" 
             />
             <p>Continue com o Google</p>
           </button>
