@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co',
+        hostname: 'avatars.githubusercontent.com',
         pathname: '/**',
       },
     ],
