@@ -11,38 +11,43 @@ export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isShowingPassword, setIsShowingPassword] = useState(false);
   const btnClass = "flex flex-row rounded-xl hover:opacity-80 hover:bg-gray-100 transition-all border-gray-200 shadow-sm cursor-pointer items-center p-2 gap-4 border w-1/2";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    const form = e.currentTarget as HTMLFormElement;
-    const emailInput = form.email.value;
-    const passwordInput = form.password.value;
-
-    if (!emailInput || !passwordInput) {
-      setError("Preencha email e senha para continuar.");
+    // Validação mínima da senha
+    if (password.length < 8) {
+      setError("A senha deve ter no mínimo 8 caracteres.");
       return;
     }
 
     setIsLoading(true);
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: emailInput,
-      password: passwordInput,
-    });
 
-    if (res?.error) {
-      setError(res.error);
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Erro ao criar conta.");
+      }
+
+      window.location.href = "/signin";
+    } catch (err: unknown) {
+      console.error(err);
+      setError("Erro ao criar conta.");
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    // Login bem-sucedido
-    window.location.href = "/";
   };
-
 
   return (
     <div className="flex flex-col h-screen w-full">
@@ -50,18 +55,38 @@ export default function SignInPage() {
       <section className="flex-grow p-2 flex items-center justify-center bg-white">
         <div className="flex flex-col gap-2 bg-white p-8 h-full w-full items-center">
           <div className="flex flex-col justify-start w-1/2">
-            <h1 className="text-xl text-black w-full font-black font-mono">Acesse agora sua conta Paperless</h1>
+            <h1 className="text-xl text-black w-full font-black font-mono">Crie agora sua conta Paperless</h1>
             <h1 className="text-xl text-gray-500 w-full font-black font-mono">Seu blog favorito</h1>
           </div>
           {isLoading ? (
-            <LoadingSpinner message="Validando login..." width="w-12" height="h-12" />
+            <LoadingSpinner message="Validando criação de conta..." width="w-12" height="h-12" />
           ): (
             <div className="flex flex-col justify-center items-center w-full gap-2"> 
-              <form onSubmit={handleLogin} className="flex gap-4 flex-col justify-center items-center w-full my-8">
+              <form onSubmit={handleSubmit} className="flex gap-4 flex-col justify-center items-center w-full my-8">
+                {/* Nome */}
+                <div className="flex flex-col w-1/2">
+                  <label 
+                    htmlFor="name" 
+                    className="mb-1 text-sm font-medium text-gray-700"
+                  >
+                    Nome
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    className="border border-gray-300 w-full p-2 rounded-md"
+                    type="text"
+                    placeholder="Digite seu nome..."
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+
                 {/* Email */}
                 <div className="flex flex-col w-1/2">
                   <label 
-                    htmlFor="Email" 
+                    htmlFor="email" 
                     className="mb-1 text-sm font-medium text-gray-700"
                   >
                     Email
@@ -73,13 +98,15 @@ export default function SignInPage() {
                     type="email"
                     placeholder="Digite seu email..."
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
                 {/* Senha */}
                 <div className="flex flex-col w-1/2">
                   <label 
-                    htmlFor="Password" 
+                    htmlFor="password" 
                     className="mb-1 text-sm font-medium text-gray-700"
                   >
                     Senha
@@ -92,6 +119,8 @@ export default function SignInPage() {
                       type={isShowingPassword ? "text" : "password"}
                       placeholder="Digite sua senha..."
                       required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <button
                       type="button"
@@ -118,13 +147,12 @@ export default function SignInPage() {
                     </button>
                   </div>
                 </div>
-
-                {error && <p className="text-red-500 mt-2">Nenhuma conseguimos escontrar sua conta</p>}
+                {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                 <button
                   type="submit"
                   className="bg-black text-white w-1/2 p-2 rounded-md hover:opacity-80 transition-all"
                 >
-                  Entrar
+                  Cadastrar
                 </button>
 
               </form>
@@ -160,7 +188,7 @@ export default function SignInPage() {
                 />
                 <p>Continue com o GitHub</p>
               </button>
-              <Link href="/signup" className="mt-2 underline">Não tem uma conta?</Link>
+              <Link href="/signin" className="mt-2 underline">Já tem uma conta?</Link>
             </div>
           )}
         </div>

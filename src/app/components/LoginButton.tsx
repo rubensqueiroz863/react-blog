@@ -17,7 +17,7 @@ export default function LoginButton() {
       <>
         <div className="relative p-1 transition-all hover:bg-gray-200 rounded-full">
           <Image
-            src={session.user?.image || ""}
+            src={session.user?.image || "https://i.postimg.cc/qR0CxJnP/default-avatar-icon-of-social-media-user-vector.jpg"}
             alt={session.user?.name || "User Image"}
             width={128}
             height={128}
