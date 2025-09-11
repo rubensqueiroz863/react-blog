@@ -44,10 +44,9 @@ export default function LoginButton() {
         <LoadingSpinner message="Carregando pagina de login..." width="w-6" height="h-6" />
       ): (
         <div className="bg-blue-500 cursor-pointer text-white px-5 py-1 rounded-lg hover:bg-blue-700 transition">
-          fazer login
+          Começar Agora
         </div>
       )}
-      
     </Link>
     
   )
