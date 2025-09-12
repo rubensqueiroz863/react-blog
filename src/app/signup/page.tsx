@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import NavBarLogin from "../components/NavBarLogin";
+import NavbarLogin from "../components/NavbarLogin";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -52,7 +52,7 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-dvh w-full bg-white">
-      <NavBarLogin />
+      <NavbarLogin />
       <section className="flex-grow flex items-center justify-center px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md flex flex-col gap-6">
           <div className="text-center">
@@ -146,7 +146,7 @@ export default function SignUpPage() {
 
                 <button
                   type="submit"
-                  className="bg-black text-white p-2 rounded-md w-full hover:opacity-80 transition-all"
+                  className="bg-black cursor-pointer text-white p-2 rounded-md w-full hover:opacity-80 transition-all"
                 >
                   Cadastrar
                 </button>
