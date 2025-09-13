@@ -7,7 +7,7 @@ import LoginButton from "./LoginButton";
 import Logo from "./Logo";
 import HomeMenuButton from "./HomeMenuButton";
 
-export default function NavbarHome() {
+export default function NavBarHome() {
 	const menu = useHomeMenu();
 	
 	return (

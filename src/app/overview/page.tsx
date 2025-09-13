@@ -1,9 +1,9 @@
-import NavbarOverview from "../components/NavbarOverview";
+import NavBarOverview from "../components/NavBarOverview";
 
 export default function OverviewPage() {
   return (
     <div>
-      <NavbarOverview />
+      <NavBarOverview />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import NavbarHome from "./components/NavbarHome";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "./components/LoadingSpinner";
+import NavBarHome from "./components/NavBarHome";
 
 export default function Home() {
   const { data: user, status } = useSession();
@@ -18,7 +18,7 @@ export default function Home() {
   }
   return (
     <div>
-      <NavbarHome />
+      <NavBarHome />
       <div className="flex sm:gap-5 gap-10 justify-center items-center py-14 px-8 my-6">
         <Image 
           src="https://i.postimg.cc/FR1h8trR/wired-outline-245-edit-document-hover-pinch.gif"

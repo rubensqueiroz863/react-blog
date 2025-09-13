@@ -3,9 +3,9 @@
 import OverviewMenuButton from "./OverviewMenuButton";
 import { useOverviewMenu } from "@/menu";
 
-export default function NavbarOverview() { 
+export default function NavBarOverview() { 
   const menu = useOverviewMenu()
-  
+
   return (
     <div
       onMouseLeave={menu.closeMenu}
