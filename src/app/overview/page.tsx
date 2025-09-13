@@ -1,4 +1,4 @@
-import NavBarOverview from "@/app/components/NavBarOverview";
+import NavBarOverview from "../components/NavBarOverview";
 
 export default function OverviewPage() {
   return (
