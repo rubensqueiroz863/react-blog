@@ -1,10 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import NavbarHome from "./components/NavbarHome";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export default function Home() {
+  const { data: user, status } = useSession();
 
-
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center w-full min-h-screen">
+        <LoadingSpinner message="Carregando..." width="w-18 mb-40" height="h-18" />
+      </div>
+    )
+  }
   return (
     <div>
       <NavbarHome />
@@ -39,11 +50,20 @@ export default function Home() {
         Um espaço onde ideias se encontram, <br/>tarefas se simplificam e projetos ganham vida
       </div>
       <div className="flex justify-center mb-10">
-        <Link href="/signin">
-          <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-            Começar Agora
-          </div>
-        </Link>
+        {!user ? (
+            <Link href="/signin">
+              <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+                Começar Agora
+              </div>
+            </Link>
+          ) : (
+          <Link href="/overview">
+            <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+              Continuar
+            </div>
+          </Link>
+          )
+        }
       </div>
     </div>
   );

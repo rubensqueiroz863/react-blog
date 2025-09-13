@@ -1,14 +1,14 @@
 "use client";
 
-import { useMenu } from "@/menu";
+import { useHomeMenu } from "@/menu";
 import MenuDrawer from "./MenuDrawer";
 import { AnimatePresence } from "framer-motion";
 import LoginButton from "./LoginButton";
 import Logo from "./Logo";
-import MenuButton from "./MenuButton";
+import HomeMenuButton from "./HomeMenuButton";
 
 export default function NavbarHome() {
-	const menu = useMenu();
+	const menu = useHomeMenu();
 	
 	return (
 			<>
@@ -16,7 +16,7 @@ export default function NavbarHome() {
 					<Logo />
 					<div className="flex items-center gap-4">
 						<LoginButton />
-						<MenuButton />
+						<HomeMenuButton />
 					</div>
 				</div>
 				<AnimatePresence>

@@ -1,8 +1,8 @@
-import { useMenu } from "@/menu";
+import { useHomeMenu } from "@/menu";
 import { motion } from "framer-motion";
 
 export default function MenuDrawer() {
-	const menu = useMenu();
+	const menu = useHomeMenu();
 
 	return (
 		<motion.div
