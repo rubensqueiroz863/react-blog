@@ -1,7 +1,7 @@
 "use client";
 
 import { useHomeMenu } from "@/menu";
-import MenuDrawer from "./MenuDrawer";
+import MenuDrawer from "./HomeMenuDrawer";
 import { AnimatePresence } from "framer-motion";
 import LoginButton from "./LoginButton";
 import Logo from "./Logo";
