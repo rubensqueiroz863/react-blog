@@ -31,7 +31,7 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("https://react-blogbackend-production.up.railway.app/auth/login", {
+      const res = await fetch("https://react-blog-backend-srz5.onrender.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,6 +53,7 @@ export default function SignInPage() {
       // Redireciona
       window.location.href = "/overview";
     } catch (err: unknown) {
+      console.log(err);
       setError("Erro ao conectar com o servidor.");
     } finally {
       setIsLoading(false);
