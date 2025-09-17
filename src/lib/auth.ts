@@ -28,16 +28,16 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email e senha são obrigatórios.");
         }
 
-        const user = await Prisma.user.findUnique({
+        const users = await Prisma.users.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+        if (!users) return null;
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password!);
+        const isPasswordValid = await bcrypt.compare(credentials.password, users.password!);
         if (!isPasswordValid) return null;
 
-        return { id: user.id, name: user.name, email: user.email };
+        return { id: users.id, name: users.name, email: users.email };
       },
     }),
   ],
@@ -49,12 +49,12 @@ export const authOptions: NextAuthOptions = {
       if (!account || !user.email) return false;
 
       // Procura usuário existente no Prisma
-      const existingUser = await Prisma.user.findUnique({
+      const existingusers = await Prisma.users.findUnique({
         where: { email: user.email },
       });
 
-      if (!existingUser) {
-        await Prisma.user.create({
+      if (!existingusers) {
+        await Prisma.users.create({
           data: {
             email: user.email,
             name: user.name || profile?.name || "Sem nome",

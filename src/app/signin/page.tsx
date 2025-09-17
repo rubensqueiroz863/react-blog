@@ -29,20 +29,36 @@ export default function SignInPage() {
     }
 
     setIsLoading(true);
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: emailInput,
-      password: passwordInput,
-    });
 
-    if (res?.error) {
-      setError(res.error);
+    try {
+      const res = await fetch("https://react-blogbackend-production.up.railway.app/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: emailInput, password: passwordInput }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Email ou senha inválidos.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Armazena JWT localmente
+      localStorage.setItem("token", data.token);
+
+      // Redireciona
+      window.location.href = "/overview";
+    } catch (err: unknown) {
+      setError("Erro ao conectar com o servidor.");
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    window.location.href = "/overview";
   };
+
 
   return (
     <div className="flex flex-col min-h-dvh w-full bg-white">

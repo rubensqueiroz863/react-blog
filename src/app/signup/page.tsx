@@ -30,19 +30,20 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("https://react-blogbackend-production.up.railway.app/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Erro ao criar conta.");
+        const data = await res.text(); // o backend retorna texto simples
+        throw new Error(data || "Erro ao criar conta.");
       }
 
+      // Redireciona para login
       window.location.href = "/signin";
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
       setError("Erro ao criar conta.");
     } finally {

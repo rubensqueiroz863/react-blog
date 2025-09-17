@@ -11,14 +11,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email e senha são obrigatórios." }, { status: 400 });
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.users.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json({ error: "Erro" }, { status: 400 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         name,
         email,
