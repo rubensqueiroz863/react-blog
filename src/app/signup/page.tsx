@@ -30,7 +30,7 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("https://react-blog-backend-srz5.onrender.com/auth/register", {
+      const res = await fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
