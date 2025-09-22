@@ -148,7 +148,7 @@ export default function SignInPage() {
                 <button
                   onClick={() => {
                     setIsLoading(true);
-                    signIn("google", { callbackUrl: "/overview" });
+                    window.location.href = "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google";
                   }}
                   className={btnClass}
                 >

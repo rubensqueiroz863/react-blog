@@ -14,5 +14,5 @@ model users {
   name     String?
   image    String?
   provider String?
-  createdAt DateTime @default(now())
+  created_at DateTime @default(now())
 }
