@@ -23,18 +23,25 @@ export default function LoginButton() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
+
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      credentials: "include" // permite enviar cookies JSESSIONID do OAuth2
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include"
     })
+
       .then(res => {
-        if (!res.ok) return; // res.ok = false se 401 ou 403
+        if (!res.ok) throw new Error("Unauthorized");
         return res.json();
       })
       .then(data => setUser(data))
       .catch(() => setUser(null))
       .finally(() => setIsLoading(false));
   }, []);
+
 
 
 

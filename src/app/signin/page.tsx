@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
