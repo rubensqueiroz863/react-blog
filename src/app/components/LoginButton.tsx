@@ -21,11 +21,14 @@ export default function LoginButton() {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
-      credentials: "include"
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      credentials: "include" // permite enviar cookies JSESSIONID do OAuth2
     })
       .then(res => {
-        if (!res.ok) throw new Error("Não autenticado");
+        if (!res.ok) return; // res.ok = false se 401 ou 403
         return res.json();
       })
       .then(data => setUser(data))
@@ -33,18 +36,22 @@ export default function LoginButton() {
       .finally(() => setIsLoading(false));
   }, []);
 
+
+
   const handleLogout = () => {
     setIsLoading(true);
+    localStorage.removeItem("token"); // <--- limpa o JWT
+
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/logout", {
       credentials: "include",
       method: "POST"
-    })
-      .finally(() => {
-        setUser(null);
-        setIsLoading(false);
-        window.location.href = "/";
-      });
+    }).finally(() => {
+      setUser(null);
+      setIsLoading(false);
+      window.location.href = "/";
+    });
   };
+
 
   if (isLoading) return <LoadingSpinner message="" width="w-6" height="h-6" />;
 
