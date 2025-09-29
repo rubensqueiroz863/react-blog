@@ -4,17 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
-
-type UserType = {
-  sub?: string;          // ID do usuário no OAuth
-  name?: string;         // Nome completo
-  given_name?: string;   // Primeiro nome
-  family_name?: string;  // Sobrenome
-  picture?: string;      // URL da imagem
-  email?: string;        // Email
-  email_verified?: boolean; // Se o email foi verificado
-};
-
+import { UserType } from "@/types/UserType";
 
 export default function LoginButton() {
   const [isLoading, setIsLoading] = useState(true);

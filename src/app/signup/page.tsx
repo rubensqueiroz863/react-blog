@@ -169,22 +169,6 @@ export default function SignUpPage() {
                   />
                   Continue com o Google
                 </button>
-
-                <button
-                  onClick={() => {
-                    setIsLoading(true);
-                    signIn("github", { callbackUrl: "/" });
-                  }}
-                  className={btnClass}
-                >
-                  <Image
-                    src="https://i.postimg.cc/XYgBJp2G/733609.png"
-                    alt="Logo do GitHub"
-                    width={20}
-                    height={20}
-                  />
-                  Continue com o GitHub
-                </button>
               </div>
 
               <Link

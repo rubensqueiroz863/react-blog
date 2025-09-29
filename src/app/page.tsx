@@ -2,20 +2,45 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import NavBarHome from "./components/NavBarHome";
+import { useEffect, useState } from "react";
+import { UserType } from "@/types/UserType";
 
 export default function Home() {
-  const { data: user, status } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserType | null>(null);
 
-  if (status === "loading") {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
+
+    fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include"
+    })
+
+      .then(res => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
+      .then(data => setUser(data))
+      .catch(() => setUser(null))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center w-full min-h-screen">
         <LoadingSpinner message="Carregando..." width="w-18 mb-40" height="h-18" />
       </div>
     )
   }
+  
   return (
     <div>
       <NavBarHome />

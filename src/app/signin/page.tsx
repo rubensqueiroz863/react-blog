@@ -159,22 +159,6 @@ export default function SignInPage() {
                   />
                   Continue com o Google
                 </button>
-
-                <button
-                  onClick={() => {
-                    setIsLoading(true);
-                    window.location.href = "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/github";
-                  }}
-                  className={btnClass}
-                >
-                  <Image
-                    src="https://i.postimg.cc/XYgBJp2G/733609.png"
-                    alt="Logo do GitHub"
-                    width={20}
-                    height={20}
-                  />
-                  Continue com o GitHub
-                </button>
               </div>
 
               <Link href="/signup" className="text-center text-sm text-gray-600 underline mt-4">
