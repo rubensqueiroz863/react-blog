@@ -9,14 +9,15 @@ export default function OverviewPage() {
   const menu = useOverviewMenu();
 
   return (
-    <div>
-      <NavBarOverview />
-      {(menu.isOpen || menu.isLocked) && (
+    <div className="flex flex-col h-screen">
+      <NavBarOverview /> {/* h-10 já está aplicado no próprio componente */}
+      <div className="flex-1 relative">
+        {(menu.isOpen || menu.isLocked) && (
           <AnimatePresence>
             <OverviewMenuDrawer />
           </AnimatePresence>
-      )}
+        )}
+      </div>
     </div>
-
   );
 }

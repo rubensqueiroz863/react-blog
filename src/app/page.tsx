@@ -78,15 +78,15 @@ export default function Home() {
         {!user ? (
             <Link href="/signin">
               <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-                Começar Agora
+                Continuar
               </div>
             </Link>
           ) : (
-          <Link href="/overview">
-            <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-              Continuar
-            </div>
-          </Link>
+            <Link href="/overview">
+              <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+                Continuar
+              </div>
+            </Link>
           )
         }
       </div>
