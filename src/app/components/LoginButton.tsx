@@ -74,6 +74,7 @@ export default function LoginButton() {
     );
   }
 
+
   return (
     <Link href="/signin" onClick={() => setIsLoading(true)}>
       <div className="bg-blue-500 text-white px-5 py-1 rounded-lg hover:bg-blue-700 transition">

@@ -4,8 +4,15 @@ import { useOverviewMenu } from "@/menu";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 
-export default function OverviewMenuDrawer() {
-  const [width, setWidth] = useState(200);
+interface UserProps {
+  id?: string;
+  name?: string;
+  email?: string;
+  picture?: string;
+}
+
+export default function OverviewMenuDrawer({ user }: { user: UserProps}) {
+  const [width, setWidth] = useState(250);
   const isResizing = useRef(false);
   const menu = useOverviewMenu();
 
@@ -16,7 +23,7 @@ export default function OverviewMenuDrawer() {
     }
     document.addEventListener("mousemove", handleLeave);
     return () => document.removeEventListener("mousemove", handleLeave);
-  }, [width])
+  }, [width, menu])
 
   const handleMouseDown = () => {
     isResizing.current = true;
@@ -25,8 +32,8 @@ export default function OverviewMenuDrawer() {
   };
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizing.current) return;
-    setWidth(Math.max(200, e.clientX)); // largura mínima de 200px
+    if (!isResizing.current || e.clientX > 400) return;
+    setWidth(Math.max(250, e.clientX)); // largura mínima de 200px
   };
 
   const handleMouseUp = () => {
@@ -36,14 +43,14 @@ export default function OverviewMenuDrawer() {
   };
 
   return (
-    <div className={`flex ${menu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-full pointer-events-none`}> {/* ❌ sem fixed */}
+    <div className={`flex ${menu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-screen pointer-events-none`}>
       <motion.div
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
         style={{ width }}
-        className="flex h-full"
+        className="flex h-full pointer-events-auto" // 👈 reativa aqui
         onMouseLeave={() => {
           if (!menu.isLocked) menu.closeMenu();
         }}
@@ -51,18 +58,27 @@ export default function OverviewMenuDrawer() {
         <div
           className={`flex ${
             menu.isLocked
-              ? "h-full w-full pointer-events-auto m-0"
-              : "h-2/3 m-2 rounded-lg"
-          } bg-gray-300 dark:bg-neutral-700 w-full`}
+              ? "h-full w-full m-0"
+              : "h-2/3 m-2 rounded-sm"
+          } bg-gray-300 dark:bg-neutral-800 w-full`}
         >
-          div
+          {/* este bloco agora funciona com hover */}
+          <div className="flex m-1 rounded-md w-full h-8 items-center gap-1 p-1 hover:bg-neutral-700 transition-all cursor-pointer">
+            <div className="flex font-bold w-6 h-6 border justify-center">
+              {user?.name?.at(0)}
+            </div>
+            <p className="dark:text-white">{user?.name}</p>
+          </div>
+
+          {/* botão de resize também precisa responder */}
           <button
             onMouseDown={handleMouseDown}
-            className="flex cursor-ew-resize ml-auto w-1 h-full"
+            className="flex cursor-ew-resize ml-auto w-0.5 h-full"
           />
         </div>
       </motion.div>
     </div>
+
   );
 
 }
