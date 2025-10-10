@@ -3,18 +3,23 @@
 import { useOverviewMenu } from "@/menu";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import UserMenu from "./UserMenu";
+import { UserProps } from "@/types/UserProps";
+import UserIcon from "./UserIcon";
 
-interface UserProps {
-  id?: string;
-  name?: string;
-  email?: string;
-  picture?: string;
-}
-
-export default function OverviewMenuDrawer({ user }: { user: UserProps}) {
+export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}>) {
   const [width, setWidth] = useState(250);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const isResizing = useRef(false);
   const menu = useOverviewMenu();
+
+  const handleShowUserMenu = () => {
+    if (!showUserMenu) {
+      setShowUserMenu(true);
+    } else {
+      setShowUserMenu(false);
+    }
+  }
 
   useEffect(() => {
     const handleLeave = (e: MouseEvent) => {
@@ -33,7 +38,7 @@ export default function OverviewMenuDrawer({ user }: { user: UserProps}) {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isResizing.current || e.clientX > 400) return;
-    setWidth(Math.max(250, e.clientX)); // largura mínima de 200px
+    setWidth(Math.max(250, e.clientX)); // largura mínima de 250px
   };
 
   const handleMouseUp = () => {
@@ -63,12 +68,19 @@ export default function OverviewMenuDrawer({ user }: { user: UserProps}) {
           } bg-gray-300 dark:bg-neutral-800 w-full`}
         >
           {/* este bloco agora funciona com hover */}
-          <div className="flex m-1 rounded-md w-full h-8 items-center gap-1 p-1 hover:bg-neutral-700 transition-all cursor-pointer">
-            <div className="flex font-bold w-6 h-6 border justify-center">
-              {user?.name?.at(0)}
-            </div>
+          <button
+            onClick={handleShowUserMenu}
+            className={`flex m-1 rounded-md w-full h-8 items-center gap-2 p-2 ${showUserMenu ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
+          >
+            <UserIcon user={user} width={"6"} height={"6"}/>
             <p className="dark:text-white">{user?.name}</p>
-          </div>
+            
+          </button>
+          { showUserMenu ? (
+              <UserMenu user={user} />
+            ): (
+              <div></div>
+          )}
 
           {/* botão de resize também precisa responder */}
           <button
