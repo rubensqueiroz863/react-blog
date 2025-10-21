@@ -6,6 +6,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import NavBarHome from "./components/NavBarHome";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types/UserType";
+import { texts } from "@/lib/translate";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +37,7 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-full min-h-screen">
-        <LoadingSpinner message="Carregando..." width="w-18 mb-40" height="h-18" />
+        <LoadingSpinner width="w-18 mb-40" height="h-18" />
       </div>
     )
   }
@@ -68,27 +69,18 @@ export default function Home() {
         />
       </div>
       <div className="flex flex-col w-full items-center text-center text-3xl md:text-5xl font-Inter font-extrabold">
-        <p>Um espaço criativo</p>
-        <p>que transforma ideias</p>
+        <p>{texts.initialName1}</p>
+        <p>{texts.initialName2}</p>
       </div>
       <div className="flex flex-col my-6 text-center items-center justify-center text-md">
-        Um espaço onde ideias se encontram, <br/>tarefas se simplificam e projetos ganham vida
+        {texts.initialText1}<br/>{texts.initialText2}
       </div>
       <div className="flex justify-center mb-10">
-        {!user ? (
-            <Link href="/signin">
-              <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-                Continuar
-              </div>
-            </Link>
-          ) : (
-            <Link href="/overview">
-              <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-                Continuar
-              </div>
-            </Link>
-          )
-        }
+        <Link href="/signin">
+          <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+            {texts.signInBtnName2}
+          </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type HomeMenuState = {
+type GenericMenuState = {
     isOpen: boolean;
     toggleMenu: () => void;
     openMenu: () => void;
@@ -18,7 +18,7 @@ type OverviewMenuState = {
     unlockMenu: () => void;
 }
 
-export const useHomeMenu = create<HomeMenuState>((set) => ({
+export const useHomeMenu = create<GenericMenuState>((set) => ({
     isOpen: false,
     toggleMenu: () => set((state) => ({ isOpen: !state.isOpen })),
     openMenu: () => set({ isOpen: true }),
@@ -35,3 +35,10 @@ export const useOverviewMenu = create<OverviewMenuState>((set) => ({
     lockMenu: () => set({ isLocked: true }),
     unlockMenu: () => set({ isLocked: false }),
 }))
+
+export const useSettingsMenu = create<GenericMenuState>((set) => ({
+    isOpen: false,
+    toggleMenu: () => set((state) => ({ isOpen: !state.isOpen})),
+    openMenu: () => set({ isOpen: true }),
+    closeMenu: () => set({ isOpen: false }),
+}));

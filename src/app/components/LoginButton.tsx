@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import { UserType } from "@/types/UserType";
+import { texts } from "@/lib/translate";
 
 export default function LoginButton() {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +51,7 @@ export default function LoginButton() {
   };
 
 
-  if (isLoading) return <LoadingSpinner message="" width="w-6" height="h-6" />;
+  if (isLoading) return <LoadingSpinner width="w-6" height="h-6" />;
 
   if (user) {
     return (
@@ -64,6 +65,7 @@ export default function LoginButton() {
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
           />
         </div>
+        {"delelopment button"}
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition"
@@ -78,7 +80,7 @@ export default function LoginButton() {
   return (
     <Link href="/signin" onClick={() => setIsLoading(true)}>
       <div className="bg-blue-500 text-white px-5 py-1 rounded-lg hover:bg-blue-700 transition">
-        Começar Agora
+        {texts.signInBtnName1}
       </div>
     </Link>
   );

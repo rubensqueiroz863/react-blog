@@ -4,7 +4,6 @@ import { useHomeMenu } from "@/menu"
 
 export default function HomeMenuButton() {
   const menu = useHomeMenu();
-
   return (
     <div
       onClick={menu.toggleMenu}

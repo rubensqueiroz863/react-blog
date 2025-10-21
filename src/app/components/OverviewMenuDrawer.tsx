@@ -1,6 +1,6 @@
 "use client";
 
-import { useOverviewMenu } from "@/menu";
+import { useOverviewMenu, useSettingsMenu } from "@/menu";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import UserMenu from "./UserMenu";
@@ -11,7 +11,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
   const [width, setWidth] = useState(250);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const isResizing = useRef(false);
-  const menu = useOverviewMenu();
+  const overviewMenu = useOverviewMenu();
 
   const handleShowUserMenu = () => {
     if (!showUserMenu) {
@@ -20,15 +20,14 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
       setShowUserMenu(false);
     }
   }
-
   useEffect(() => {
     const handleLeave = (e: MouseEvent) => {
       if (e.clientX < width) return;
-      menu.closeMenu();
+      overviewMenu.closeMenu();
     }
     document.addEventListener("mousemove", handleLeave);
     return () => document.removeEventListener("mousemove", handleLeave);
-  }, [width, menu])
+  }, [width, overviewMenu])
 
   const handleMouseDown = () => {
     isResizing.current = true;
@@ -48,7 +47,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
   };
 
   return (
-    <div className={`flex ${menu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-screen pointer-events-none`}>
+    <div className={`flex ${overviewMenu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-screen pointer-events-none`}>
       <motion.div
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
@@ -57,12 +56,12 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
         style={{ width }}
         className="flex h-full pointer-events-auto" // 👈 reativa aqui
         onMouseLeave={() => {
-          if (!menu.isLocked) menu.closeMenu();
+          if (!overviewMenu.isLocked) overviewMenu.closeMenu();
         }}
       >
         <div
           className={`flex ${
-            menu.isLocked
+            overviewMenu.isLocked
               ? "h-full w-full m-0"
               : "h-2/3 m-2 rounded-sm"
           } bg-gray-300 dark:bg-neutral-800 w-full`}
@@ -89,6 +88,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
           />
         </div>
       </motion.div>
+      
     </div>
 
   );

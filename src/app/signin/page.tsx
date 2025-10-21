@@ -5,6 +5,7 @@ import { useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
+import { texts } from "@/lib/translate";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,14 +30,25 @@ export default function SignInPage() {
 
     setIsLoading(true);
 
+    // 📌 Detecta idioma do navegador
+    const language = navigator.language || "en-US";
+
     try {
-      const res = await fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: emailInput, password: passwordInput }),
-      });
+      const res = await fetch(
+        "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // ✅ Envia também o idioma
+          body: JSON.stringify({
+            email: emailInput,
+            password: passwordInput,
+            language,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -46,12 +58,9 @@ export default function SignInPage() {
         return;
       }
 
-      // Armazena JWT localmente
       localStorage.setItem("token", data.token);
-
-      // Redireciona
       window.location.href = "/overview";
-    } catch (err: unknown) {
+    } catch (err) {
       console.log(err);
       setError("Erro ao conectar com o servidor.");
     } finally {
@@ -59,17 +68,16 @@ export default function SignInPage() {
     }
   };
 
-
   return (
     <div className="flex flex-col min-h-dvh w-full bg-white">
       <NavBarLogin />
       <section className="flex-grow flex items-center justify-center px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md flex flex-col gap-6">
           <div className="text-center">
-            <h1 className="text-2xl font-bold font-mono text-black">
-              Acesse agora sua conta Paperless
+            <h1 className="text-xl font-extrabold font-mono text-black">
+              {texts.signInText}
             </h1>
-            <p className="text-gray-500 mt-1">Seu blog favorito</p>
+            <p className="text-gray-500 mt-1">{texts.signInSubText}</p>
           </div>
 
           {isLoading ? (
@@ -79,7 +87,6 @@ export default function SignInPage() {
           ) : (
             <>
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                {/* Email */}
                 <div className="flex flex-col">
                   <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">
                     Email
@@ -88,23 +95,22 @@ export default function SignInPage() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Digite seu email..."
+                    placeholder={texts.emailHolder}
                     required
                     className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
                   />
                 </div>
 
-                {/* Senha */}
                 <div className="flex flex-col">
                   <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1">
-                    Senha
+                    {texts.passwordName}
                   </label>
                   <div className="relative flex items-center">
                     <input
                       id="password"
                       name="password"
                       type={isShowingPassword ? "text" : "password"}
-                      placeholder="Digite sua senha..."
+                      placeholder={texts.passwordHolder}
                       required
                       className="w-full border border-gray-300 rounded-md p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-black"
                     />
@@ -126,20 +132,16 @@ export default function SignInPage() {
                     </button>
                   </div>
                 </div>
+
                 {error && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {error === "CredentialsSignin"
-                      ? "Email ou senha inválidos."
-                      : error === "Illegal arguments: string, object"
-                      ? "Email ou senha inválidos."
-                      : error}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{error}</p>
                 )}
+
                 <button
                   type="submit"
                   className="bg-black cursor-pointer text-white p-2 rounded-md w-full hover:opacity-80 transition-all"
                 >
-                  Entrar
+                  {texts.loginName}
                 </button>
               </form>
 
@@ -147,7 +149,9 @@ export default function SignInPage() {
                 <button
                   onClick={() => {
                     setIsLoading(true);
-                    window.location.href = "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google";
+                    const lang = navigator.language || "en-US";
+                    // ✅ envia idioma na URL do OAuth2
+                    window.location.href = `https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google?lang=${lang}`;
                   }}
                   className={btnClass}
                 >
@@ -157,12 +161,12 @@ export default function SignInPage() {
                     width={20}
                     height={20}
                   />
-                  Continue com o Google
+                  {texts.googleBtnName}
                 </button>
               </div>
 
-              <Link href="/signup" className="text-center text-sm text-gray-600 underline mt-4">
-                Não tem uma conta?
+              <Link href="/signup" className="text-center text-md text-gray-600 underline mt-4">
+                {texts.signUpRedirectName}
               </Link>
             </>
           )}
