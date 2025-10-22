@@ -1,13 +1,35 @@
+"use client";
+
 import { UserProps } from "@/types/UserProps";
 import UserIcon from "./UserIcon";
 import Image from "next/image";
 import { useSettingsMenu } from "@/menu";
-import { texts } from "@/lib/translate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, onClose: () => void }>) {
   const menuRef = useRef<HTMLDivElement>(null);
   const settingsMenu = useSettingsMenu(); // settingsMenu.isOpen
+
+  const [texts, setTexts] = useState({
+    settingsBtn: "Configurações",
+    shareBtn: "Compartilhar",
+  });
+
+  useEffect(() => {
+    const lang = navigator.language;
+
+    if (lang === "pt-BR") {
+      setTexts({
+        settingsBtn: "Configurações",
+        shareBtn: "Compartilhar",
+      });
+    } else {
+      setTexts({
+        settingsBtn: "Settings",
+        shareBtn: "Share",
+      });
+    }
+  }, [])
 
   const handleShare = async () => {
     try {
@@ -53,7 +75,7 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
           <div className="flex gap-2">
             <button
               onClick={handleShowSettings}
-              className="flex w-34 items-center border text-neutral-500 rounded-lg cursor-pointer px-0.5 pr-1.5"
+              className="flex text-center justify-center w-34 items-center border text-neutral-500 rounded-lg cursor-pointer px-0.5 pr-1.5"
             >
               <Image
                 src={"https://i.postimg.cc/4ykqVqbW/Gear-icon.png"}
@@ -61,13 +83,13 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
                 height={24}
                 alt="settings"
               />
-              {texts.SettingName}
+              {texts.settingsBtn}
             </button>
             <button
               onClick={handleShare}
               className="flex w-27 text-center justify-center items-center border text-neutral-500 rounded-lg cursor-pointer"
             >
-              {texts.inviteName}
+              {texts.shareBtn}
             </button>
           </div>
         </div>

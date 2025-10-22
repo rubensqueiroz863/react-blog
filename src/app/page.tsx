@@ -6,11 +6,41 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import NavBarHome from "./components/NavBarHome";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types/UserType";
-import { texts } from "@/lib/translate";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserType | null>(null);
+
+  const [texts, setTexts] = useState({
+    initialText1: "Um espaço criativo",
+    initialText2: "que transforma ideias",
+    initialSubText1: "Um espaço onde ideias se encontram,",
+    initialSubText2: "tarefas se simplificam e projetos ganham vida",
+    redirectSignIn: "Começar",
+  });
+
+  useEffect(() => {
+    const lang = navigator.language;
+    
+    if (lang === "pt-BR") {
+      setTexts({
+        initialText1: "Um espaço criativo",
+        initialText2: "que transforma ideias",
+        initialSubText1: "Um espaço onde ideias se encontram,",
+        initialSubText2: "tarefas se simplificam e projetos ganham vida",
+        redirectSignIn: "Começar",
+      });
+    } else {
+      setTexts({
+        initialText1: "A creative space",
+        initialText2: "that transforms ideas",
+        initialSubText1: "A space where ideas meet,",
+        initialSubText2: "tasks become simpler, and projects come to life.",
+        redirectSignIn: "Get started",
+      });
+    }
+  }, []);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -69,16 +99,16 @@ export default function Home() {
         />
       </div>
       <div className="flex flex-col w-full items-center text-center text-3xl md:text-5xl font-mono font-black">
-        <p>{texts.initialName1}</p>
-        <p>{texts.initialName2}</p>
+        <p>{texts.initialText1}</p>
+        <p>{texts.initialText2}</p>
       </div>
       <div className="flex flex-col font-serif my-6 text-center items-center justify-center text-md">
-        {texts.initialText1}<br/>{texts.initialText2}
+        {texts.initialSubText1}<br/>{texts.initialSubText2}
       </div>
       <div className="flex justify-center mb-10">
         <Link href="/signin">
           <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-            {texts.signInBtnName2}
+            {texts.redirectSignIn}
           </div>
         </Link>
       </div>

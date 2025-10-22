@@ -5,7 +5,7 @@ import { useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
-import { texts } from "@/lib/translate";
+import { useEffect } from "react";
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +14,51 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [texts, setTexts] = useState({
+    signUpText: "Crie agora sua conta Paperless",
+    signUpSubText: "Seu blog favorito",
+    emailHolder: "Digite seu email...",
+    passwordHolder: "Digite sua senha....",
+    nameHolder: "Digite seu nome...",
+    signUpBtn: "Cadastrar",
+    passwordLabel: "Senha",
+    nameLabel: "Nome",
+    googleBtn: "Continue com google",
+    redirectSignIn: "Cadastre-se",
+  });
+  
+  useEffect(() => {
+    const lang = navigator.language;
+
+    if (lang === "pt-BR") {
+      setTexts({
+        signUpText: "Crie agora sua conta Paperless",
+        signUpSubText: "Seu blog favorito",
+        emailHolder: "Digite seu email...",
+        passwordHolder: "Digite sua senha...",
+        nameHolder: "Digite seu nome...",
+        signUpBtn: "Cadastrar",
+        passwordLabel: "Senha",
+        nameLabel: "Nome",
+        googleBtn: "Continue com google",
+        redirectSignIn: "Cadastre-se",
+      })
+    } else {
+      setTexts({
+        signUpText: "Create your Paperless account now",
+        signUpSubText: "Your favorite blog",
+        emailHolder: "Enter your email...",
+        passwordHolder: "Enter your password...",
+        nameHolder: "Enter your name...",
+        signUpBtn: "Sign Up",
+        passwordLabel: "Password",
+        nameLabel: "Name",
+        googleBtn: "Continue with Google",
+        redirectSignIn: "Sign in",
+      });
+    }
+  }, []);
 
   const btnClass =
     "flex flex-row rounded-xl hover:opacity-80 hover:bg-gray-100 transition-all border-gray-200 shadow-sm cursor-pointer items-center p-2 gap-4 border w-full sm:w-80 justify-center";
@@ -64,7 +109,7 @@ export default function SignUpPage() {
             <h1 className="text-xl font-extrabold font-mono text-black">
               {texts.signUpText}
             </h1>
-            <p className="text-gray-500 mt-1">{texts.signInSubText}</p>
+            <p className="text-gray-500 mt-1">{texts.signUpSubText}</p>
           </div>
 
           {isLoading ? (
@@ -80,7 +125,7 @@ export default function SignUpPage() {
                 {/* Nome */}
                 <div className="flex flex-col">
                   <label htmlFor="name" className="text-sm font-medium text-gray-700 mb-1">
-                    {texts.nameInput}
+                    {texts.nameLabel}
                   </label>
                   <input
                     id="name"
@@ -114,7 +159,7 @@ export default function SignUpPage() {
                 {/* Senha */}
                 <div className="flex flex-col">
                   <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1">
-                    {texts.passwordName}
+                    {texts.passwordLabel}
                   </label>
                   <div className="relative flex items-center">
                     <input
@@ -130,7 +175,7 @@ export default function SignUpPage() {
                     <button
                       type="button"
                       onClick={() => setIsShowingPassword((prev) => !prev)}
-                      className="absolute right-2 p-1 rounded-md hover:opacity-80 transition-all"
+                      className="absolute cursor-pointer right-2 p-1 rounded-md hover:opacity-80 transition-all"
                     >
                       <Image
                         src={
@@ -152,7 +197,7 @@ export default function SignUpPage() {
                   type="submit"
                   className="bg-black cursor-pointer text-white p-2 rounded-md w-full hover:opacity-80 transition-all"
                 >
-                  {texts.signUpName}
+                  {texts.signUpBtn}
                 </button>
               </form>
 
@@ -170,7 +215,7 @@ export default function SignUpPage() {
                     width={20}
                     height={20}
                   />
-                  {texts.googleBtnName}
+                  {texts.googleBtn}
                 </button>
               </div>
 
@@ -178,7 +223,7 @@ export default function SignUpPage() {
                 href="/signin"
                 className="text-center text-md text-gray-600 underline mt-4"
               >
-                {texts.signInRedirectName}
+                {texts.redirectSignIn}
               </Link>
             </>
           )}
