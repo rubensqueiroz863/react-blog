@@ -82,7 +82,7 @@ export default function SignInPage() {
 
           {isLoading ? (
             <div className="flex justify-center">
-              <LoadingSpinner message="Validando login..." width="w-12" height="h-12" />
+              <LoadingSpinner width="w-12" height="h-12" />
             </div>
           ) : (
             <>

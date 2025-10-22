@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function SettingsMenu({ onClose }: { onClose: () => void }) {
+export default function SettingsMenu({ onClose }: Readonly<{ onClose: () => void }>) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,8 +14,16 @@ export default function SettingsMenu({ onClose }: { onClose: () => void }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  // 👇 esse clique é importante
+  function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation(); // impede o clique de “vazar” pro UserMenu
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      onMouseDown={handleContainerClick} // 👈 intercepta aqui
+    >
       <div
         ref={menuRef}
         className="flex flex-col px-4 py-4 w-[90%] max-w-md h-auto rounded-xl border border-neutral-700 dark:bg-neutral-800 shadow-2xl"

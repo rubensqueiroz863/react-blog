@@ -19,7 +19,7 @@ const geistInter = Inter({
 
 export const metadata: Metadata = {
   title: "Paperless Blog",
-  description: "My blog next app",
+  description: "My next blog  app",
 };
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistInter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistInter.variable} antialiased`}
       >
       {children}
       </body>

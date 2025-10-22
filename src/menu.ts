@@ -42,3 +42,10 @@ export const useSettingsMenu = create<GenericMenuState>((set) => ({
     openMenu: () => set({ isOpen: true }),
     closeMenu: () => set({ isOpen: false }),
 }));
+
+export const useClientMenu = create<GenericMenuState>((set) => ({
+    isOpen: false,
+    toggleMenu: () => set((state) => ({ isOpen: !state.isOpen})),
+    openMenu: () => set({ isOpen: true }),
+    closeMenu: () => set({ isOpen: false }),
+}));

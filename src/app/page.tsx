@@ -68,11 +68,11 @@ export default function Home() {
           className="w-25 md:w-35 xl:w-45 rotate-4"
         />
       </div>
-      <div className="flex flex-col w-full items-center text-center text-3xl md:text-5xl font-Inter font-extrabold">
+      <div className="flex flex-col w-full items-center text-center text-3xl md:text-5xl font-mono font-black">
         <p>{texts.initialName1}</p>
         <p>{texts.initialName2}</p>
       </div>
-      <div className="flex flex-col my-6 text-center items-center justify-center text-md">
+      <div className="flex flex-col font-serif my-6 text-center items-center justify-center text-md">
         {texts.initialText1}<br/>{texts.initialText2}
       </div>
       <div className="flex justify-center mb-10">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useOverviewMenu, useSettingsMenu } from "@/menu";
+import { useClientMenu, useOverviewMenu } from "@/menu";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import UserMenu from "./UserMenu";
@@ -9,17 +9,10 @@ import UserIcon from "./UserIcon";
 
 export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}>) {
   const [width, setWidth] = useState(250);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const isResizing = useRef(false);
   const overviewMenu = useOverviewMenu();
+  const clientMenu = useClientMenu();
 
-  const handleShowUserMenu = () => {
-    if (!showUserMenu) {
-      setShowUserMenu(true);
-    } else {
-      setShowUserMenu(false);
-    }
-  }
   useEffect(() => {
     const handleLeave = (e: MouseEvent) => {
       if (e.clientX < width) return;
@@ -47,7 +40,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
   };
 
   return (
-    <div className={`flex ${overviewMenu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-screen pointer-events-none`}>
+    <div className={`flex ${clientMenu.isOpen ? "pointer-events-auto" : ""} ${overviewMenu.isLocked ? "" : "fixed left-0 top-0 py-10"} h-screen pointer-events-none`}>
       <motion.div
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
@@ -68,15 +61,15 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
         >
           {/* este bloco agora funciona com hover */}
           <button
-            onClick={handleShowUserMenu}
-            className={`flex m-1 rounded-md w-full h-8 items-center gap-2 p-2 ${showUserMenu ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
+            onClick={clientMenu.toggleMenu}
+            className={`flex m-1 rounded-md w-full h-8 items-center gap-2 p-2 ${clientMenu.isOpen ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
           >
             <UserIcon user={user} width={"6"} height={"6"}/>
             <p className="dark:text-white">{user?.name}</p>
             
           </button>
-          { showUserMenu ? (
-              <UserMenu user={user} />
+          { clientMenu.isOpen ? (
+              <UserMenu user={user} onClose={clientMenu.closeMenu}/>
             ): (
               <div></div>
           )}
@@ -84,7 +77,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
           {/* botão de resize também precisa responder */}
           <button
             onMouseDown={handleMouseDown}
-            className="flex cursor-ew-resize ml-auto w-0.5 h-full"
+            className="flex cursor-ew-resize ml-auto w-1 h-full"
           />
         </div>
       </motion.div>

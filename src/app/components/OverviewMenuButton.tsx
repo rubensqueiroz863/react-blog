@@ -7,7 +7,6 @@ export default function OverviewMenuButton() {
 
   return (
     <div
-      onMouseEnter={menu.openMenu}
       onClick={menu.toggleLockMenu}
       className="flex flex-col justify-between w-5 h-4 mt-1 cursor-pointer relative"
     >
