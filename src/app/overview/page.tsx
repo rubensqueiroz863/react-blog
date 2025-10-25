@@ -14,12 +14,13 @@ export default function OverviewPage() {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    
+    const token = localStorage.getItem("accessToken");
+    if (!token) window.location.href = "/signin"; // ou redirecionar para login
+
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: "include"
+      headers: { Authorization: `Bearer ${token}` }
     })
+
 
     .then(res => {
       if (!res.ok) throw new Error("Unauthorized");
@@ -49,7 +50,7 @@ export default function OverviewPage() {
           {(menu.isOpen || menu.isLocked) && (
             <AnimatePresence mode="wait">
               <div className="shrink-0">
-                <OverviewMenuDrawer user={user!} />
+                {user && <OverviewMenuDrawer user={user} />}
               </div>
             </AnimatePresence>
           )}

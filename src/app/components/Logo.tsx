@@ -9,7 +9,7 @@ export default function Logo() {
         alt="Logo do blog"
         width={100}
         height={100}
-        className="w-14 md:w-15 xl:w-16 object-contain"
+        className="w-12 object-contain"
       />
     </Link>
   );

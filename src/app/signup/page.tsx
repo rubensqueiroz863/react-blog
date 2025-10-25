@@ -205,10 +205,12 @@ export default function SignUpPage() {
                 <button
                   onClick={() => {
                     setIsLoading(true);
-                    window.location.href = "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google";
+                    const lang = navigator.language || "en-US";
+                    window.location.href = `https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google?lang=${lang}`;
                   }}
                   className={btnClass}
                 >
+
                   <Image
                     src="https://i.postimg.cc/15vZ3SGR/Google-G-logo-svg-1.png"
                     alt="Logo do Google"

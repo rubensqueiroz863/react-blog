@@ -12,7 +12,7 @@ export default function MenuDrawer() {
 			transition={{duration: 0.4, ease: "easeInOut"}}
 			className="fixed top-0 left-0 h-full w-2/5 bg-white shadow-2xl z-50 flex flex-col"
 		>
-			<div className="flex items-center justify-between p-4 border-b">
+			<div className="flex items-center justify-between p-4">
 				<h2 className="text-xl font-semibold">Menu</h2>
 				<button
 					className="cursor-pointer w-8"
