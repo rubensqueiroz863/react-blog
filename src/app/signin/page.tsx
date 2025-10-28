@@ -78,8 +78,6 @@ export default function SignInPage() {
 
       const data = await res.json();
 
-      console.log(data);
-
       if (!res.ok) {
         setError(data?.message || "Email ou senha inválidos.");
         setIsLoading(false);
@@ -91,7 +89,7 @@ export default function SignInPage() {
       localStorage.setItem("refreshToken", data.refreshToken);
 
       // redireciona
-      //window.location.href = "/overview";
+      window.location.href = "/overview";
     } catch (err) {
       console.error(err);
       setError("Erro ao conectar com o servidor.");
