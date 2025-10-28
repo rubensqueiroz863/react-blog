@@ -92,11 +92,13 @@ export default function Home() {
           await fetchUser(data.accessToken);
         } catch {
           setUser(null);
+          
         }
       }
     };
 
     initUser();
+    setIsLoading(false);
   }, []);
 
 
