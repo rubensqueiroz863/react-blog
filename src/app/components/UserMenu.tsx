@@ -5,10 +5,12 @@ import UserIcon from "./UserIcon";
 import Image from "next/image";
 import { useSettingsMenu } from "@/menu";
 import { useEffect, useRef, useState } from "react";
+import LogoutMenu from "./LogoutMenu";
 
 export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, onClose: () => void }>) {
   const menuRef = useRef<HTMLDivElement>(null);
   const settingsMenu = useSettingsMenu(); // settingsMenu.isOpen
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
   const [texts, setTexts] = useState({
     settingsBtn: "Configurações",
@@ -61,10 +63,10 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
   }
 
   return (
-    <div className="fixed inset-0 z-1 flex items-center justify-center">
-        <div ref={menuRef} className="flex flex-col px-3 absolute left-4 top-20 w-70 h-65 border rounded-lg border-neutral-700 dark:bg-neutral-800 bg-white">
+    <div className="fixed dark:text-white inset-0 z-1 flex items-center justify-center">
+        <div ref={menuRef} className="flex flex-col  absolute left-4 top-20 w-70 h-65 border rounded-lg border-neutral-700 dark:bg-neutral-800 bg-white">
           <div
-            className="flex w-full h-1/4 dark:text-white gap-2 items-center">
+            className="flex px-3 w-full my-2 h-1/4 dark:text-white gap-2 items-center">
             <UserIcon user={user} text="3xl" padding="px-5 py-5"/>
             <div className="">
               <p className="text-sm">{user?.name}</p>
@@ -72,7 +74,7 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
             </div>
             
           </div>
-          <div className="flex gap-2">
+          <div className="flex px-3 gap-2 mb-3">
             <button
               onClick={handleShowSettings}
               className="flex text-center justify-center w-34 items-center border text-neutral-500 rounded-lg cursor-pointer px-0.5 pr-1.5"
@@ -92,6 +94,24 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
               {texts.shareBtn}
             </button>
           </div>
+          <div className="h-0.5 w-full bg-neutral-700"></div>
+          <div className="flex gap-12 h-full p-3 w-full bg-[#1f1f1f] rounded-b-md">
+            <p className="text-sm text-neutral-400">{user.email}</p>
+            
+            <div
+              onClick={() => setShowLogoutMenu(!showLogoutMenu)}
+              className="flex text-neutral-400 cursor-pointer items-center justify-center w-5 h-5 gap-0.5 rounded-full hover:bg-neutral-700">
+              <span>·</span>
+              <span>·</span>
+              <span>·</span>
+              
+            </div>
+            
+          </div>
+            { showLogoutMenu ? 
+              <LogoutMenu /> :
+              <div></div>
+            }
         </div>
       </div>
     

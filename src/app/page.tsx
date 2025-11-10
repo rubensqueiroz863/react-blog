@@ -81,7 +81,7 @@ export default function Home() {
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ refreshToken })
+              body: JSON.stringify({ refreshToken }),
             }
           );
 
@@ -92,14 +92,16 @@ export default function Home() {
           await fetchUser(data.accessToken);
         } catch {
           setUser(null);
-          
         }
       }
+
+      // ✅ garantir que o loading só termine depois de tudo
+      setIsLoading(false);
     };
 
     initUser();
-    setIsLoading(false);
   }, []);
+
 
 
   if (isLoading) {
