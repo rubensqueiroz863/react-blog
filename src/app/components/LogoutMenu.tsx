@@ -1,11 +1,14 @@
 "use client";
 
 import { UserType } from "@/types/UserType";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 export default function LogoutMenu() {
   const [user, setUser] = useState<UserType | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -36,7 +39,7 @@ export default function LogoutMenu() {
       method: "POST"
     }).finally(() => {
       setUser(null);
-      window.location.href = "/";
+      router.push("/");
     });
   };
 

@@ -6,12 +6,16 @@ import { useState, useRef, useEffect } from "react";
 import UserMenu from "./UserMenu";
 import { UserProps } from "@/types/UserProps";
 import UserIcon from "./UserIcon";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}>) {
   const [width, setWidth] = useState(250);
   const isResizing = useRef(false);
   const overviewMenu = useOverviewMenu();
   const clientMenu = useClientMenu();
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleLeave = (e: MouseEvent) => {
@@ -57,15 +61,29 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
             overviewMenu.isLocked
               ? "h-full w-full m-0"
               : "h-2/3 m-2 rounded-sm"
-          } bg-gray-300 dark:bg-neutral-800 w-full`}
+          } bg-gray-300 flex-col dark:bg-neutral-800 w-full`}
         >
-          {/* este bloco agora funciona com hover */}
           <button
             onClick={clientMenu.toggleMenu}
             className={`flex m-1 rounded-md w-full h-8 items-center gap-2 p-2 ${clientMenu.isOpen ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
           >
             <UserIcon user={user} width={"6"} height={"6"}/>
             <p className="dark:text-white">{user?.name}</p>
+            
+          </button>
+
+          <button
+            onClick={() => router.push("/search")}
+            className={`flex m-1 rounded-md w-full h-8 items-center gap-1.5 font-semibold text-[15px] p-2 ${clientMenu.isOpen ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
+          >
+            <Image
+              src={"https://i.postimg.cc/k41yLbtw/search-521.png"}
+              alt={"imagem de lupa ou lupe image"}
+              width={128}
+              height={128}
+              className="w-4 h-4"
+            />
+            <p className="text-neutral-400">Pesquisar</p>
             
           </button>
           { clientMenu.isOpen ? (

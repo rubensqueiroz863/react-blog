@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,8 @@ export default function SignInPage() {
     googleBtn: "Continue com google",
     redirectSignUp: "Cadastre-se",
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     const lang = navigator.language;
@@ -89,7 +92,7 @@ export default function SignInPage() {
       localStorage.setItem("refreshToken", data.refreshToken);
 
       // redireciona
-      window.location.href = "/overview";
+      router.push("/overview")
     } catch (err) {
       console.error(err);
       setError("Erro ao conectar com o servidor.");
