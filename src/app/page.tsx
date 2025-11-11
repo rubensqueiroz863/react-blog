@@ -60,7 +60,6 @@ export default function Home() {
         return res.json();
       })
       .then(data => setUser(data))
-      .catch(() => setUser(null))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -106,7 +105,7 @@ export default function Home() {
         {texts.initialSubText1}<br/>{texts.initialSubText2}
       </div>
       <div className="flex justify-center mb-10">
-        <Link href="/signin">
+        <Link href={user ? "overview" : "/signin"}>
           <div className="bg-blue-500 cursor-pointer text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
             {texts.redirectSignIn}
           </div>

@@ -12,8 +12,7 @@ export default function LoginButton() {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log("começou")
+    const token = localStorage.getItem("token");
 
     if (!token) {
       setIsLoading(false);
@@ -22,6 +21,7 @@ export default function LoginButton() {
 
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: "include"
     })
 
       .then(res => {
@@ -38,9 +38,10 @@ export default function LoginButton() {
 
   const handleLogout = () => {
     setIsLoading(true);
-    localStorage.removeItem("accessToken"); // <--- limpa o JWT
+    localStorage.removeItem("token"); // <--- limpa o JWT
 
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/logout", {
+      credentials: "include",
       method: "POST"
     }).finally(() => {
       setUser(null);
@@ -64,12 +65,11 @@ export default function LoginButton() {
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
           />
         </div>
-        { /*delelopment button */}
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition"
         >
-          Sair (wipe)
+          Sair
         </button>
       </>
     );

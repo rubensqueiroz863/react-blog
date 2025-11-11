@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isShowingPassword, setIsShowingPassword] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
+
   const [texts, setTexts] = useState({
     signInText: "Acesse agora sua conta Paperless",
     signInSubText: "Seu blog favorito",
@@ -96,7 +99,7 @@ export default function SignInPage() {
       }
 
       localStorage.setItem("token", data.token);
-      window.location.href = "/overview";
+      router.push("/overview");
     } catch (err) {
       console.log(err);
       setError("Erro ao conectar com o servidor.");

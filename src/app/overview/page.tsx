@@ -7,12 +7,14 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { UserType } from "@/types/UserType";
 import SettingsMenu from "../components/SettingsMenu";
+import { useRouter } from "next/navigation";
 
 export default function OverviewPage() {
   const menu = useOverviewMenu();
   const settingsMenu = useSettingsMenu();
   const [user, setUser] = useState<UserType | null>(null);
-
+  const router = useRouter();
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     
@@ -22,7 +24,7 @@ export default function OverviewPage() {
     })
 
     .then(res => {
-      if (!res.ok) throw new Error("Unauthorized");
+      if (!res.ok) router.push("/");
       return res.json();
     })
     .then(data => setUser(data));

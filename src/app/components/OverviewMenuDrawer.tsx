@@ -74,7 +74,7 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
 
           <button
             onClick={() => router.push("/search")}
-            className={`flex m-1 rounded-md w-full h-8 items-center gap-1.5 font-semibold text-[15px] p-2 ${clientMenu.isOpen ? "bg-[#333333]" : ""} hover:bg-[#333333] transition-all cursor-pointer`}
+            className="flex mx-1 my-0.5 rounded-md w-full h-8 items-center gap-1.5 font-semibold text-[15px] p-2 hover:bg-[#333333] transition-all cursor-pointer"
           >
             <Image
               src={"https://i.postimg.cc/k41yLbtw/search-521.png"}
@@ -84,8 +84,22 @@ export default function OverviewMenuDrawer({ user }: Readonly<{ user: UserProps}
               className="w-4 h-4"
             />
             <p className="text-neutral-400">Pesquisar</p>
-            
           </button>
+
+          <button
+            onClick={() => router.push("/overview")}
+            className="flex mx-1 my-0.5 rounded-md w-full h-8 items-center gap-1.5 font-semibold text-[15px] p-2 hover:bg-[#333333] transition-all cursor-pointer"
+          >
+            <Image
+              src={"https://i.postimg.cc/bwMRg6v1/8367621.png"}
+              alt={"imagem de inicio ou home image"}
+              width={128}
+              height={128}
+              className="w-4 h-4"
+            />
+            <p className="text-neutral-400">Home</p>
+          </button>
+
           { clientMenu.isOpen ? (
               <UserMenu user={user} onClose={clientMenu.closeMenu}/>
             ): (
