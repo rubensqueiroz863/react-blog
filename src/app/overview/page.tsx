@@ -14,13 +14,12 @@ export default function OverviewPage() {
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) window.location.href = "/signin"; // ou redirecionar para login
-
+    const token = localStorage.getItem("token");
+    
     fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/me", {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: "include"
     })
-
 
     .then(res => {
       if (!res.ok) throw new Error("Unauthorized");

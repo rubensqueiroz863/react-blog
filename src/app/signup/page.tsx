@@ -6,7 +6,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +14,6 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const router = useRouter();
 
   const [texts, setTexts] = useState({
     signUpText: "Crie agora sua conta Paperless",
@@ -93,7 +90,7 @@ export default function SignUpPage() {
         throw new Error(data || "Erro ao criar conta.");
       }
 
-      router.push("/signin");
+      window.location.href = "/signin";
     } catch (err) {
       console.error(err);
       setError("Erro ao criar conta.");
@@ -208,12 +205,10 @@ export default function SignUpPage() {
                 <button
                   onClick={() => {
                     setIsLoading(true);
-                    const lang = navigator.language || "en-US";
-                    window.location.href = `https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google?lang=${lang}`;
+                    window.location.href = "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google";
                   }}
                   className={btnClass}
                 >
-
                   <Image
                     src="https://i.postimg.cc/15vZ3SGR/Google-G-logo-svg-1.png"
                     alt="Logo do Google"

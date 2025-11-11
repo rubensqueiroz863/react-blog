@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Link from "next/link";
 import NavBarLogin from "../components/NavBarLogin";
-import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,14 +14,12 @@ export default function SignInPage() {
     signInText: "Acesse agora sua conta Paperless",
     signInSubText: "Seu blog favorito",
     emailHolder: "Digite seu email...",
-    passwordHolder: "Digite sua senha...",
+    passwordHolder: "Digite sua senha....",
     signInBtn: "Entrar",
     passwordLabel: "Senha",
     googleBtn: "Continue com google",
     redirectSignUp: "Cadastre-se",
   });
-
-  const router = useRouter();
 
   useEffect(() => {
     const lang = navigator.language;
@@ -37,7 +34,7 @@ export default function SignInPage() {
         passwordLabel: "Senha",
         googleBtn: "Continue com google",
         redirectSignUp: "Cadastre-se",
-      });
+      })
     } else {
       setTexts({
         signInText: "Access your Paperless account now",
@@ -70,31 +67,38 @@ export default function SignInPage() {
 
     setIsLoading(true);
 
+    // 📌 Detecta idioma do navegador
     const language = navigator.language || "en-US";
 
     try {
-      const res = await fetch("https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: emailInput, password: passwordInput, language }),
-      });
+      const res = await fetch(
+        "https://sticky-charil-react-blog-3b39d9e9.koyeb.app/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // ✅ Envia também o idioma
+          body: JSON.stringify({
+            email: emailInput,
+            password: passwordInput,
+            language,
+          }),
+        }
+      );
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data?.message || "Email ou senha inválidos.");
+        setError(data.message || "Email ou senha inválidos.");
         setIsLoading(false);
         return;
       }
 
-      // ✅ salva tokens
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-
-      // redireciona
-      router.push("/overview")
+      localStorage.setItem("token", data.token);
+      window.location.href = "/overview";
     } catch (err) {
-      console.error(err);
+      console.log(err);
       setError("Erro ao conectar com o servidor.");
     } finally {
       setIsLoading(false);
@@ -107,7 +111,9 @@ export default function SignInPage() {
       <section className="flex-grow flex items-center justify-center px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md flex flex-col gap-6">
           <div className="text-center">
-            <h1 className="text-xl font-extrabold font-mono text-black">{texts.signInText}</h1>
+            <h1 className="text-xl font-extrabold font-mono text-black">
+              {texts.signInText}
+            </h1>
             <p className="text-gray-500 mt-1">{texts.signInSubText}</p>
           </div>
 
@@ -118,9 +124,10 @@ export default function SignInPage() {
           ) : (
             <>
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                {/* Email */}
                 <div className="flex flex-col">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
                   <input
                     id="email"
                     name="email"
@@ -131,9 +138,10 @@ export default function SignInPage() {
                   />
                 </div>
 
-                {/* Senha */}
                 <div className="flex flex-col">
-                  <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1">{texts.passwordLabel}</label>
+                  <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1">
+                    {texts.passwordLabel}
+                  </label>
                   <div className="relative flex items-center">
                     <input
                       id="password"
@@ -149,9 +157,10 @@ export default function SignInPage() {
                       className="absolute cursor-pointer right-2 p-1 rounded-md hover:opacity-80 transition-all"
                     >
                       <Image
-                        src={isShowingPassword
-                          ? "https://i.postimg.cc/YCgvvk7F/10435731.png"
-                          : "https://i.postimg.cc/SRsXRMQQ/6684701.png"
+                        src={
+                          isShowingPassword
+                            ? "https://i.postimg.cc/YCgvvk7F/10435731.png"
+                            : "https://i.postimg.cc/SRsXRMQQ/6684701.png"
                         }
                         alt={isShowingPassword ? "Ícone de olho" : "Ícone de olho fechado"}
                         width={24}
@@ -161,9 +170,14 @@ export default function SignInPage() {
                   </div>
                 </div>
 
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                {error && (
+                  <p className="text-red-500 text-sm mt-1">{error}</p>
+                )}
 
-                <button type="submit" className="bg-black cursor-pointer text-white p-2 rounded-md w-full hover:opacity-80 transition-all">
+                <button
+                  type="submit"
+                  className="bg-black cursor-pointer text-white p-2 rounded-md w-full hover:opacity-80 transition-all"
+                >
                   {texts.signInBtn}
                 </button>
               </form>
@@ -173,6 +187,7 @@ export default function SignInPage() {
                   onClick={() => {
                     setIsLoading(true);
                     const lang = navigator.language || "en-US";
+                    // ✅ envia idioma na URL do OAuth2
                     window.location.href = `https://sticky-charil-react-blog-3b39d9e9.koyeb.app/oauth2/authorization/google?lang=${lang}`;
                   }}
                   className={btnClass}
