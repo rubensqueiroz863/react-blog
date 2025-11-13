@@ -13,7 +13,7 @@ export default function OverviewPage() {
   const menu = useOverviewMenu();
   const settingsMenu = useSettingsMenu();
   const [user, setUser] = useState<UserType | null>(null);
-  const router = useRouter();
+  const router = useRouter(); 
   
   useEffect(() => {
     const token = localStorage.getItem("token");

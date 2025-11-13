@@ -15,7 +15,7 @@ export default function UserMenu({ user, onClose }: Readonly<{ user: UserProps, 
   const [texts, setTexts] = useState({
     settingsBtn: "Configurações",
     shareBtn: "Compartilhar",
-  });
+  })
 
   useEffect(() => {
     const lang = navigator.language;
